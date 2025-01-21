@@ -1,21 +1,35 @@
+//解gcd，要記得最後的結果是n = 0就回傳m。
 #include<stdio.h>
-int num[20], k, n;
-int recall(int i, int sum) {
-    if(sum >= k || i == n){
-        if(sum == k)
-            return 1;  
-        else
-            return 0; 
+#include<limits.h>
+int num[1000] = {0}; 
+int gcd(int m, int n) {
+    if(m < n) {
+        gcd(n, m); 
     }
-    return recall(i + 1, sum + num[i]) + recall(i + 1, sum); 
-
-} 
+    if(n == 0) {
+        return m; 
+    }
+    return gcd(n, m % n); 
+}
 int main()
-{ 
-    scanf("%d %d", &n, &k);
-    for(int i = 0; i < n; i++) {
-        scanf("%d", &num[i]);
+{
+    int t; 
+    scanf("%d", &t); 
+    while(t--) {
+        int n; 
+        scanf("%d", &n);
+        int max = INT_MIN; 
+        for(int i = 0; i < n; i++) {
+            scanf("%d", &num[i]);
+        }
+        for(int i = 0; i < n; i++) {
+            for(int j = i + 1; j < n; j++) {
+                int gcdres = gcd(num[i], num[j]); 
+                if(gcdres > max)
+                    max = gcdres; 
+            }
+        }
+        printf("%d\n", max);
     }
-    printf("%d\n", recall(0, 0)); 
-    return 0; 
+    return 0;
 }
